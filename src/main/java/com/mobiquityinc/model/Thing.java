@@ -14,7 +14,6 @@ public class Thing implements Comparable<Thing> {
 
     @Override
     public int compareTo(Thing o) {
-
         int compareTo = o.getCost().compareTo(this.getCost());
         return compareTo != 0 ? compareTo : this.getWeight().compareTo(o.getWeight());
     }
