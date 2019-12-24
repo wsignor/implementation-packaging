@@ -9,7 +9,20 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <build>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
