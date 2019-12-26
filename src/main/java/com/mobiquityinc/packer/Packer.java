@@ -46,10 +46,9 @@ public class Packer {
             }
 
             return result.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException fileException) {
+            throw new APIException("File not found. " + fileException.getMessage());
         }
-        return result.toString();
     }
 
     // TODO remove if not used

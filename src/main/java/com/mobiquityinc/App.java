@@ -17,7 +17,7 @@ public class App {
 
         /*
         try {
-            String result = Packer.pack("C:\\Users\\wsignor\\Downloads\\MobEu-Hiring-Java\\MobEu-Hiring-Java\\src\\main\\resources\\things.txt");
+            String result = Packer.pack("C:\\Users\\wsignor\\Downloads\\MobEu-Hiring-Java\\MobEu-Hiring-Java\\src\\main\\resources\\things1.txt");
 
             System.out.println(result);
         } catch (APIException e) {
