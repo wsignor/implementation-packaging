@@ -20,7 +20,6 @@ public class PackerPackTest {
         compare.add("8,9");
 
         String result = Packer.pack(filePath);
-
         Assertions.assertEquals(compare.toString(), result);
     }
 

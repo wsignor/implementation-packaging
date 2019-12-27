@@ -2,7 +2,6 @@ package com.mobiquityinc.packer;
 
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.model.Thing;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,9 +18,11 @@ public class Packer {
 
     public static String pack(String filePath) throws APIException {
         StringJoiner result = new StringJoiner("\n");
+
         try {
             FileInputStream inputStream = new FileInputStream(filePath);
             Scanner scanner = new Scanner(inputStream, "UTF-8");
+
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 List<Thing> things = buildPackage(line);
@@ -41,6 +42,7 @@ public class Packer {
         }
     }
 
+
     public static List<Thing> buildPackage(String line) {
 
         List<Thing> validThings = new ArrayList<>();
@@ -53,7 +55,7 @@ public class Packer {
         }
 
         for (String item : items) {
-            if (StringUtils.isNotEmpty(item)) {
+            if (!item.isEmpty()) {
 
                 String[] properties = item.split(",");
                 Thing thing = buildThing(properties);
@@ -77,30 +79,29 @@ public class Packer {
 
     public static List<Thing> checkBestFit(List<Thing> things, Double maxWeight) {
         double totalWeight = 0.0;
-        Thing current;
-        Thing next;
-        List<Thing> resultingPackage = new ArrayList<>();
-        things = things.stream().sorted().collect(Collectors.toList());
+        Thing currentThing;
+        Thing nextThing;
 
         double totalWeightSum = things.stream().mapToDouble(t -> t.getWeight()).sum();
-        if (totalWeightSum <= maxWeight) {
+        if (Double.compare(totalWeightSum, maxWeight) <= 0) {
             return things;
         }
 
+        things = things.stream().sorted().collect(Collectors.toList());
+        List<Thing> resultingPackage = new ArrayList<>();
         for (int i = 0; i < things.size() - 1; i++) {
-            current = things.get(i);
+            currentThing = things.get(i);
             if (totalWeight == 0) {
-                totalWeight = current.getWeight();
-                resultingPackage.add(current);
+                totalWeight = currentThing.getWeight();
+                resultingPackage.add(currentThing);
             }
 
-            next = things.get(i + 1);
-            // You would prefer to send a package which weighs less in case there is more than one package with the same price
-            if (totalWeight + next.getWeight() > maxWeight || next.getCost() == current.getCost()) {
+            nextThing = things.get(i + 1);
+            if (totalWeight + nextThing.getWeight() > maxWeight && nextThing.compareTo(currentThing) > 0) {
                 continue;
             }
-            totalWeight += next.getWeight();
-            resultingPackage.add(next);
+            totalWeight += nextThing.getWeight();
+            resultingPackage.add(nextThing);
         }
 
         return resultingPackage;

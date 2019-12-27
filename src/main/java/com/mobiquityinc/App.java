@@ -12,9 +12,6 @@ public class App {
         System.out.println("Please specify the file path?");
         String filePath = console.nextLine();
 
-        String result = Packer.pack(filePath);
-        System.out.println(result);
-
+        System.out.println(Packer.pack(filePath));
     }
-
 }
