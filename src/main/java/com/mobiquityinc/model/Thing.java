@@ -2,11 +2,9 @@ package com.mobiquityinc.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Thing implements Comparable<Thing> {
     private Integer index;
     private Double weight;
