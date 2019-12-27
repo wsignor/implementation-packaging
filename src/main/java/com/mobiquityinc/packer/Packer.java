@@ -6,7 +6,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class Packer {
@@ -17,6 +22,7 @@ public class Packer {
     public static String pack(String filePath) throws APIException {
         StringJoiner result = new StringJoiner("\n");
         try {
+            // TODO check close with resources
             FileInputStream inputStream = new FileInputStream(filePath);
             Scanner scanner = new Scanner(inputStream, "UTF-8");
             while (scanner.hasNextLine()) {
@@ -30,6 +36,7 @@ public class Packer {
                         .collect(Collectors.toList());
                 */
 
+                // TODO maxWeight <= 100
                 List<Thing> things = buildPackage(thingsToProcess[1].split(" "), maxWeight);
 
                 things = things.stream().sorted().collect(Collectors.toList());
@@ -99,6 +106,12 @@ public class Packer {
 
     public static List<Thing> buildPackage(String[] items, double maxWeight) throws APIException {
         List<Thing> validThings = new ArrayList<>();
+
+        // TODO review appropriate place for that
+        if (items.length > 10 || maxWeight > 100) {
+            return validThings;
+        }
+
         for (String item : items) {
             if (StringUtils.isNotEmpty(item)) {
                 String[] properties = item.split(",");
@@ -109,7 +122,7 @@ public class Packer {
 
                 Thing thing = new Thing(index, weight, cost);
 
-                if (thing.getCost() > 100) {
+                if (thing.getCost() > 100) { // TODO check if its the thing cost or package cost
                     throw new APIException("Cost can't be higher than 100");
                 }
 
@@ -131,6 +144,11 @@ public class Packer {
         Thing current;
         Thing next;
         List<Thing> resultingPackage = new ArrayList<>();
+
+        // TODO package can't have more than 15 things to choose from (things <= 15)
+        if (things.size() > 15 || maxWeight > 100) {
+            return resultingPackage;
+        }
 
         double totalWeightSum = things.stream().mapToDouble(t -> t.getWeight()).sum();
         if (totalWeightSum <= maxWeight) {
