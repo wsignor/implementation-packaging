@@ -13,11 +13,6 @@
 
  - Run the following command to run the app
 
-	`mvn spring-boot:run`
-
-
-- Alternatively, you can start the server running the following command
- 
 	`java -jar target/implementation-1.0-SNAPSHOT.jar`
 
 
