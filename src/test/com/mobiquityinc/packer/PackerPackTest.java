@@ -1,7 +1,6 @@
 package com.mobiquityinc.packer;
 
 import com.mobiquityinc.exception.APIException;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +50,7 @@ public class PackerPackTest {
         String emptyFile = getClass().getClassLoader().getResource("things-empty.txt").getPath();
         String result = Packer.pack(emptyFile);
 
-        Assertions.assertEquals(StringUtils.EMPTY, result);
+        Assertions.assertEquals("", result);
     }
 
     @Test
@@ -84,6 +83,37 @@ public class PackerPackTest {
         String result = Packer.pack(complexFile);
 
         Assertions.assertEquals(compare.toString(), result);
+    }
+
+    @Test
+    public void packThings_whenFileHasNoExtension_shouldReturnThings() throws Exception {
+        String filePath = getClass().getClassLoader().getResource("things-no-extension").getPath();
+        StringJoiner compare = new StringJoiner("\n");
+        compare.add("4");
+        compare.add("-");
+        compare.add("2,7");
+        compare.add("8,9");
+
+        String result = Packer.pack(filePath);
+        Assertions.assertEquals(compare.toString(), result);
+    }
+
+    @Test
+    public void packThings_whenThingsHaveSameWeight_shouldReturnTheOneWithMoreCost() throws Exception {
+        String filePath = getClass().getClassLoader().getResource("things-same-weight-diff-cost").getPath();
+
+        String result = Packer.pack(filePath);
+        String indexWithMoreCost = "2";
+        Assertions.assertEquals(indexWithMoreCost, result);
+    }
+
+    @Test
+    public void packThings_whenSumWeightIsLessThanTotal_shouldReturnAllThings() throws Exception {
+        String filePath = getClass().getClassLoader().getResource("things-sum-weight-less-than-total.txt").getPath();
+
+        String result = Packer.pack(filePath);
+        String allIndexes = "1,2,3,4";
+        Assertions.assertEquals(allIndexes, result);
     }
 
 }

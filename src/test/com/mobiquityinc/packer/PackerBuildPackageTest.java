@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class PackerBuildPackageTest {
 
     @Test
-    public void buildPackage_whenHappyPath_shouldReturnThings() {
+    public void buildPackage_whenHappyPath_shouldReturnAllThings() {
         String line = "50 : (1,10,€45) (2,30,€98) (3,4.5,€3) (4,5.5,€76)";
         List<Thing> things = Packer.buildPackage(line);
 
@@ -37,7 +37,7 @@ public class PackerBuildPackageTest {
     }
 
     @Test
-    public void buildPackage_whenPackageWeightIsHigherThan100_shouldReturnNothing() {
+    public void buildPackage_whenPackageMaxWeightIsHigherThan100_shouldReturnNothing() {
         String line = "101 : (1,101,€45) (2,320,€98) (3,422.5,€3) (4,512.5,€76)";
         List<Thing> things = Packer.buildPackage(line);
 

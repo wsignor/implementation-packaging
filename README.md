@@ -28,4 +28,4 @@ The project was structured and designed using the SOLID principles, aiming to ma
 
 
 ### Tests
-The tests were created using Jupiter/JUnit, thus enabling end-to-end testing for all methods. The unit tests were created by method, isolating the methods and testing each one in particular.
+The tests were created using Jupiter/JUnit. The unit tests were created by method, isolating the methods and testing each one in particular.
